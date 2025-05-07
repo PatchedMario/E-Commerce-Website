@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - Rug Zone</title>
+  <link rel="stylesheet" href="Style.css">
+  <style>
+    .checkout-container {
+      max-width: 800px;
+      margin: 2em auto;
+      padding: 2em;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .checkout-title {
+      text-align: center;
+      margin-bottom: 1em;
+      font-size: 2em;
+      color: #333;
+    }
+
+    .checkout-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1em 0;
+    }
+
+    .checkout-item {
+      background: #f0f0f0;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .checkout-total {
+      text-align: right;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-top: 1em;
+    }
+
+    #confirm-button {
+      display: block;
+      margin: 2em auto 1em;
+      padding: 12px 25px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #confirm-button:hover {
+      background-color: #218838;
+    }
+
+    #confirmation-message {
+      text-align: center;
+      background-color: #e8fce8;
+      border: 1px solid #28a745;
+      padding: 1em;
+      border-radius: 8px;
+      font-size: 1.2em;
+      color: #155724;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="checkout-container">
+    <h1 class="checkout-title">Checkout</h1>
+    <ul id="checkout-list" class="checkout-list"></ul>
+    <p id="total-price" class="checkout-total">Total: $0.00</p>
+    <button id="confirm-button">Confirm Order</button>
+    <div id="confirmation-message" style="display:none;"></div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+      const list = document.getElementById("checkout-list");
+      const totalElem = document.getElementById("total-price");
+      const confirmBtn = document.getElementById("confirm-button");
+      const message = document.getElementById("confirmation-message");
+
+      let total = 0;
+
+      if (cart.length === 0) {
+        list.innerHTML = "<li class='checkout-item'>Your cart is empty.</li>";
+        confirmBtn.disabled = true;
+        confirmBtn.style.opacity = "0.6";
+        confirmBtn.style.cursor = "not-allowed";
+      } else {
+        cart.forEach(item => {
+          const li = document.createElement("li");
+          li.className = "checkout-item";
+          li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+          list.appendChild(li);
+          total += item.price;
+        });
+        totalElem.textContent = `Total: $${total.toFixed(2)}`;
+      }
+
+      confirmBtn.onclick = function () {
+        sessionStorage.removeItem("cart");
+        message.style.display = "block";
+        message.innerHTML = "<h3>🎉 Thank you for your order!</h3><p>We’re getting your rugs ready for delivery.</p>";
+        list.innerHTML = "";
+        totalElem.innerHTML = "";
+        confirmBtn.disabled = true;
+        confirmBtn.style.opacity = "0.6";
+        confirmBtn.style.cursor = "not-allowed";
+      };
+    };
+  </script>
+</body>
+</html>

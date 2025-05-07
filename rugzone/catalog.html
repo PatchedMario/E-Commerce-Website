@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Catalog - Rug Zone</title>
+  <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+  <header>
+    <h1>Rug Zone Catalog</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Our Rugs</h2>
+    <div class="catalog">
+      <div class="product">
+        <h3>Pokémon Rug</h3>
+        <p>Catch 'em all in style! $29.99</p>
+        <button onclick="addToCart('Pokémon Rug', 29.99)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <h3>Game Disc Rug</h3>
+        <p>Retro gaming vibes. $24.99</p>
+        <button onclick="addToCart('Game Disc Rug', 24.99)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <h3>Comic Book Rug</h3>
+        <p>BAM! POW! Decorate like a hero. $19.99</p>
+        <button onclick="addToCart('Comic Book Rug', 19.99)">Add to Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+      cart.push({ name, price }); 
+      sessionStorage.setItem("cart", JSON.stringify(cart));
+      alert(name + " added to your cart!");
+    }
+  </script>
+</body>
+</html>
